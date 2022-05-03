@@ -1,0 +1,451 @@
+[
+  {
+    "id": "5afd41b4.d61318",
+    "type": "switch",
+    "z": "2384634b.17767c",
+    "name": "Movement detected?",
+    "property": "payload",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "eq",
+        "v": "OPEN",
+        "vt": "str"
+      }
+    ],
+    "checkall": "false",
+    "outputs": 1,
+    "x": 562,
+    "y": 285,
+    "wires": [
+      [
+        "381b0d6d.a0bd7a"
+      ]
+    ]
+  },
+  {
+    "id": "35bac8e.57dd5b8",
+    "type": "trigger",
+    "z": "2384634b.17767c",
+    "op1": "5",
+    "op2": "0",
+    "op1type": "nul",
+    "op2type": "val",
+    "duration": "8",
+    "extend": false,
+    "units": "s",
+    "reset": "OPEN",
+    "name": "Switch off delay",
+    "x": 750,
+    "y": 373,
+    "wires": [
+      [
+        "e995e130.1e2118",
+        "af1f191f.498098"
+      ]
+    ]
+  },
+  {
+    "id": "d85623d1.29b058",
+    "type": "change",
+    "z": "2384634b.17767c",
+    "name": "Light Brightness Adjustment",
+    "rules": [
+      {
+        "t": "set",
+        "p": "payload",
+        "pt": "msg",
+        "to": "Light_brightness",
+        "tot": "flow"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 1013.9999389648438,
+    "y": 284.63330078125,
+    "wires": [
+      [
+        "e995e130.1e2118",
+        "af1f191f.498098"
+      ]
+    ]
+  },
+  {
+    "id": "934ff922.ca34f",
+    "type": "inject",
+    "z": "2384634b.17767c",
+    "name": "",
+    "topic": "",
+    "payload": "OPEN",
+    "payloadType": "str",
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "x": 258.5,
+    "y": 408,
+    "wires": [
+      [
+        "5afd41b4.d61318"
+      ]
+    ]
+  },
+  {
+    "id": "ea0e2e99.52a6f8",
+    "type": "inject",
+    "z": "2384634b.17767c",
+    "name": "",
+    "topic": "",
+    "payload": "CLOSED",
+    "payloadType": "str",
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "x": 269,
+    "y": 459,
+    "wires": [
+      [
+        "35bac8e.57dd5b8",
+        "5afd41b4.d61318"
+      ]
+    ]
+  },
+  {
+    "id": "4187db59.93c2dc",
+    "type": "mqtt in",
+    "z": "2384634b.17767c",
+    "name": "Hall Light Sensor",
+    "topic": "/myhome/state/Lumin_Hall",
+    "qos": "2",
+    "broker": "bfc8eee2.a46c9",
+    "x": 243,
+    "y": 146,
+    "wires": [
+      [
+        "c94e7c4.849f48"
+      ]
+    ]
+  },
+  {
+    "id": "c94e7c4.849f48",
+    "type": "switch",
+    "z": "2384634b.17767c",
+    "name": "Light Threshold Selector",
+    "property": "payload",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "lt",
+        "v": "10",
+        "vt": "num"
+      },
+      {
+        "t": "else"
+      }
+    ],
+    "checkall": "false",
+    "outputs": 2,
+    "x": 517.3333129882812,
+    "y": 145.7166748046875,
+    "wires": [
+      [
+        "48e6a07a.962798"
+      ],
+      [
+        "ca8b6623.f11c7"
+      ]
+    ]
+  },
+  {
+    "id": "381b0d6d.a0bd7a",
+    "type": "switch",
+    "z": "2384634b.17767c",
+    "name": "Light Enabled?",
+    "property": "Light_enabled",
+    "propertyType": "flow",
+    "rules": [
+      {
+        "t": "eq",
+        "v": "Yes",
+        "vt": "str"
+      }
+    ],
+    "checkall": "true",
+    "outputs": 1,
+    "x": 775.5,
+    "y": 285,
+    "wires": [
+      [
+        "d85623d1.29b058"
+      ]
+    ]
+  },
+  {
+    "id": "48e6a07a.962798",
+    "type": "change",
+    "z": "2384634b.17767c",
+    "name": "Enable Light",
+    "rules": [
+      {
+        "t": "set",
+        "p": "Light_enabled",
+        "pt": "flow",
+        "to": "Yes",
+        "tot": "str"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 822,
+    "y": 109,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "ca8b6623.f11c7",
+    "type": "change",
+    "z": "2384634b.17767c",
+    "name": "Disable Light",
+    "rules": [
+      {
+        "t": "set",
+        "p": "Light_enabled",
+        "pt": "flow",
+        "to": "No",
+        "tot": "str"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 824.6666259765625,
+    "y": 177.51666259765625,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "b6ea27c1.c33cd",
+    "type": "inject",
+    "z": "2384634b.17767c",
+    "name": "",
+    "topic": "",
+    "payload": "Light_enabled",
+    "payloadType": "flow",
+    "repeat": "1",
+    "crontab": "",
+    "once": false,
+    "x": 330.5,
+    "y": 678,
+    "wires": [
+      [
+        "db66aec8.b3abc"
+      ]
+    ]
+  },
+  {
+    "id": "db66aec8.b3abc",
+    "type": "debug",
+    "z": "2384634b.17767c",
+    "name": "Light_enabled",
+    "active": false,
+    "console": "false",
+    "complete": "payload",
+    "x": 670.5,
+    "y": 679,
+    "wires": []
+  },
+  {
+    "id": "fa4b50b8.e6e0f",
+    "type": "inject",
+    "z": "2384634b.17767c",
+    "name": "",
+    "topic": "",
+    "payload": "5",
+    "payloadType": "num",
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "x": 233.5,
+    "y": 212,
+    "wires": [
+      [
+        "c94e7c4.849f48"
+      ]
+    ]
+  },
+  {
+    "id": "e7b1a39.f9e596",
+    "type": "inject",
+    "z": "2384634b.17767c",
+    "name": "",
+    "topic": "",
+    "payload": "100",
+    "payloadType": "num",
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "x": 235,
+    "y": 266,
+    "wires": [
+      [
+        "c94e7c4.849f48"
+      ]
+    ]
+  },
+  {
+    "id": "4b2f3c6f.de9aac",
+    "type": "mqtt in",
+    "z": "2384634b.17767c",
+    "name": "Hall Motion Sensor",
+    "topic": "/myhome/state/Hall_motion",
+    "qos": "2",
+    "broker": "87b370d1.dd497",
+    "x": 247,
+    "y": 334,
+    "wires": [
+      [
+        "5afd41b4.d61318",
+        "35bac8e.57dd5b8"
+      ]
+    ]
+  },
+  {
+    "id": "e995e130.1e2118",
+    "type": "mqtt out",
+    "z": "2384634b.17767c",
+    "name": "Hall Light Dimmer ",
+    "topic": "/myhome/command/Light_Hall/state",
+    "qos": "0",
+    "retain": "true",
+    "broker": "87b370d1.dd497",
+    "x": 1310,
+    "y": 315,
+    "wires": []
+  },
+  {
+    "id": "781e72a7.3c0abc",
+    "type": "inject",
+    "z": "2384634b.17767c",
+    "name": "Reduce Brightness at 21:00",
+    "topic": "Night Brightness",
+    "payload": "1",
+    "payloadType": "str",
+    "repeat": "",
+    "crontab": "00 21 * * *",
+    "once": false,
+    "x": 339,
+    "y": 517,
+    "wires": [
+      [
+        "adbf1e2e.3f5ae"
+      ]
+    ]
+  },
+  {
+    "id": "aa444315.a48ad8",
+    "type": "inject",
+    "z": "2384634b.17767c",
+    "name": "Normal Brightness at 6:00",
+    "topic": "Night Brightness",
+    "payload": "50",
+    "payloadType": "num",
+    "repeat": "",
+    "crontab": "00 6 * * *",
+    "once": false,
+    "x": 349.6666259765625,
+    "y": 604.683349609375,
+    "wires": [
+      [
+        "adbf1e2e.3f5ae"
+      ]
+    ]
+  },
+  {
+    "id": "adbf1e2e.3f5ae",
+    "type": "change",
+    "z": "2384634b.17767c",
+    "name": "Light Brightness Adjustment",
+    "rules": [
+      {
+        "t": "set",
+        "p": "Light_brightness",
+        "pt": "flow",
+        "to": "payload",
+        "tot": "msg"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 692,
+    "y": 554,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "af1f191f.498098",
+    "type": "debug",
+    "z": "2384634b.17767c",
+    "name": "",
+    "active": true,
+    "console": "false",
+    "complete": "false",
+    "x": 1303.5,
+    "y": 429,
+    "wires": []
+  },
+  {
+    "id": "bfc8eee2.a46c9",
+    "type": "mqtt-broker",
+    "z": "2384634b.17767c",
+    "broker": "localhost",
+    "port": "1883",
+    "clientid": "",
+    "usetls": false,
+    "verifyservercert": true,
+    "compatmode": true,
+    "keepalive": "60",
+    "cleansession": true,
+    "willTopic": "",
+    "willQos": "0",
+    "willRetain": null,
+    "willPayload": "",
+    "birthTopic": "",
+    "birthQos": "0",
+    "birthRetain": null,
+    "birthPayload": ""
+  },
+  {
+    "id": "87b370d1.dd497",
+    "type": "mqtt-broker",
+    "z": "2384634b.17767c",
+    "broker": "localhost",
+    "port": "1883",
+    "clientid": "",
+    "usetls": false,
+    "verifyservercert": true,
+    "compatmode": true,
+    "keepalive": "60",
+    "cleansession": true,
+    "willTopic": "",
+    "willQos": "0",
+    "willRetain": null,
+    "willPayload": "",
+    "birthTopic": "",
+    "birthQos": "0",
+    "birthRetain": null,
+    "birthPayload": ""
+  }
+]
